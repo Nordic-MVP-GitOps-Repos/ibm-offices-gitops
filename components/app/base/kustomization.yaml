@@ -3,24 +3,11 @@ kind: Kustomization
 
 resources:
 
-  - argo-role.yaml
-  - argo-role-binding.yaml
-  - app.yaml
-  - ci.yaml
-  - https://raw.githubusercontent.com/tektoncd/catalog/main/task/yq/0.4/yq.yaml
-  - https://raw.githubusercontent.com/tektoncd/catalog/main/task/gradle/0.2/gradle.yaml
-  - https://raw.githubusercontent.com/Nordic-MVP-GitOps-Repos/apic-tekton/main/tasks/apic-client-task.yaml
-  - https://raw.githubusercontent.com/Nordic-MVP-GitOps-Repos/apic-tekton/main/pipeline/build-apic-image-pipeline.yaml
-
-patches:
-- target:
-    group: argoproj.io
-    kind: Application
-    labelSelector: group=applications
-  patch: |-
-    - op: add
-      path: /spec/source/repoURL
-      value: https://github.com/Nordic-MVP-GitOps-Repos/ibm-office-gitops.git
-    - op: add
-      path: /spec/source/targetRevision
-      value: HEAD
+  - namespace.yaml
+  - deployment.yaml  
+  - service.yaml
+  - route.yaml
+  - secure-route.yaml
+  - self-signed-issuer.yaml
+  - certificate.yaml
+  

@@ -26,7 +26,7 @@ spec:
   source:
     directory:
       recurse: true
-    path: ./
+    path: ./argocd
     repoURL: https://github.com/Nordic-MVP-GitOps-Repos/ibm-offices-gitops.git
     targetRevision: main
   syncPolicy:
