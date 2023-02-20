@@ -196,12 +196,9 @@ spec:
       workspaces:
         - name: workspace
           workspace: workspace
-        - name: client-credentials
-          workspace: client-credentials
-        - name: basic-auth
-          workspace: basic-auth
+        - name: apim-credentials
+          workspace: apim-credentials
   workspaces:
     - name: workspace
-    - name: client-credentials
-    - name: basic-auth
+    - name: apim-credentials
     - name: github-pat
