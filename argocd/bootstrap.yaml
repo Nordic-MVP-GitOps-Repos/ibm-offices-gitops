@@ -24,8 +24,6 @@ spec:
     server: https://kubernetes.default.svc
   project: ibmoffices
   source:
-    directory:
-      recurse: true
     path: ./argocd
     repoURL: https://github.com/Nordic-MVP-GitOps-Repos/ibm-offices-gitops.git
     targetRevision: main
