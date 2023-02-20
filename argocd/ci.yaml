@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ibmoffices
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: ibmoffices
+    server: https://kubernetes.default.svc
+  project: ibmoffices
+  source:
+    directory:
+      recurse: true
+    path: ./envs/ibm-vpc/non-prod/ci
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,207 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-ibmoffices-app
+  namespace: ibmoffices
+spec:
+  params:
+    - default: 'https://github.com/Nordic-MVP-GitOps-Repos/ibm-offices'
+      name: git-repo-url
+      type: string
+    - default: src/main/docker/Dockerfile.jvm
+      name: dockerfile-path
+      type: string
+  tasks:
+    - name: git-clone
+      params:
+        - name: url
+          value: $(params.git-repo-url)
+        - name: submodules
+          value: 'true'
+        - name: depth
+          value: '1'
+        - name: sslVerify
+          value: 'true'
+        - name: crtFileName
+          value: ca-bundle.crt
+        - name: deleteExisting
+          value: 'true'
+        - name: verbose
+          value: 'true'
+        - name: gitInitImage
+          value: >-
+            registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:a538c423e7a11aae6ae582a411fdb090936458075f99af4ce5add038bb6983e8
+        - name: userHome
+          value: /tekton/home
+      taskRef:
+        kind: ClusterTask
+        name: git-clone-1-8-0
+      workspaces:
+        - name: output
+          workspace: workspace
+    - name: gradle
+      params:
+        - name: GRADLE_IMAGE
+          value: 'docker.io/library/gradle:jdk11'
+        - name: PROJECT_DIR
+          value: .
+        - name: TASKS
+          value:
+            - build
+      runAfter:
+        - git-clone
+      taskRef:
+        kind: Task
+        name: gradle
+      workspaces:
+        - name: source
+          workspace: workspace
+    - name: buildah
+      params:
+        - name: IMAGE
+          value: 'image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:$(tasks.git-clone.results.commit)'
+        - name: BUILDER_IMAGE
+          value: >-
+            registry.redhat.io/rhel8/buildah@sha256:0a86ecbdfbe86e9d225b7fe4b090a0dd6d323f8afdfdf2bd933ff223ddb53320
+        - name: STORAGE_DRIVER
+          value: vfs
+        - name: DOCKERFILE
+          value: $(params.dockerfile-path)
+        - name: CONTEXT
+          value: .
+        - name: TLSVERIFY
+          value: 'true'
+        - name: FORMAT
+          value: oci
+        - name: SKIP_PUSH
+          value: 'false'
+      runAfter:
+        - gradle
+      taskRef:
+        kind: ClusterTask
+        name: buildah
+      workspaces:
+        - name: source
+          workspace: workspace
+    - name: git-cli
+      runAfter: 
+        - yq
+      taskRef:
+        kind: ClusterTask
+        name: git-cli
+      params:
+        - name: BASE_IMAGE
+          value: >-
+            docker.io/alpine/git:v2.26.2@sha256:23618034b0be9205d9cc0846eb711b12ba4c9b468efdd8a59aac1d7b1a23363f
+        - name: GIT_USER_NAME
+          value: kjellmlarsson
+        - name: GIT_USER_EMAIL
+          value: kjell.m.larsson@se.ibm.com
+        - name: GIT_SCRIPT
+          value: |
+            if [[ $(git status -uno --porcelain | wc -l) -eq 0 ]];  then 
+                exit 0
+            fi
+            
+            git add -u .
+            git commit -m "Updated deployment based on $(tasks.git-clone.results.commit)"
+            git push origin HEAD:main
+        - name: USER_HOME
+          value: /root
+        - name: VERBOSE
+          value: 'true'
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: basic-auth
+          workspace: github-pat
+    - name: yq
+      runAfter:
+        - buildah
+      taskRef:
+        kind: Task
+        name: yq
+      params:
+        - name: SCRIPT
+          value: |
+            
+            ls -lth gitops/resources/deployment.yaml
+            
+            yq -i '.spec.template.spec.containers[0].image = "image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:$(tasks.git-clone.results.commit)"' gitops/resources/deployment.yaml
+            
+            cat gitops/resources/deployment.yaml
+        - name: image
+          value: >-
+            docker.io/mikefarah/yq:4.27.5@sha256:2be3626ed633fbe1fc33ee9343a1256a6be53334412b2251b9a859f8c145bb53
+        - name: files
+          value: []
+      workspaces:
+        - name: source
+          workspace: workspace
+    - name: apic-client
+      params: 
+        - name: APIC_CLIENT_IMAGE
+          value: >-
+            image-registry.openshift-image-registry.svc:5000/ibmoffices/apic-client@sha256:bfa16190d7b3b47ac12f30a1732451ac783e6a42d590cd37118baa7f8289e0e9
+        - name: MGMT_SERVER_URL
+          value: https://api-connec-7cef81ef-platform-api-cp4i.itzroks-2700015rqr-juclcb-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud/api
+        - name: PROVIDER_ORG
+          value: po
+        - name: CATALOG
+          value: sandbox
+        - name: SCRIPT
+          value: |
+          
+            export OFFICE_SERVICE_BASE_URL=https://secure-route-ibmoffices.itzroks-2700015rqr-juclcb-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud 
+            export TARGET_URL=$OFFICE_SERVICE_BASE_URL/offices
+           
+            # Fetch openapi description of the ibmoffices service
+            curl -k -s $OFFICE_SERVICE_BASE_URL/q/openapi > openapi.yaml
+           
+            # Set description, version and title of the api
+            yq -i '.info.description = "Git commit is $(tasks.git-clone.results.commit) from $(tasks.git-clone.results.url)"' openapi.yaml
+            yq -i '.info.version = "1.0.0"' openapi.yaml
+            yq -i '.info.title = "ibm-offices-$(tasks.git-clone.results.commit)"' openapi.yaml
+            
+            # Add target-url gateway property
+            yq -i '.x-ibm-configuration.properties += {"target-url": {"value": strenv(TARGET_URL)}}' openapi.yaml
+  
+            apic validate openapi.yaml
+            
+            # Create a draft API on the APIC server
+            apic draft-apis:create --api_type rest --gateway_type datapower-api-gateway ./openapi.yaml
+            
+            export PRODUCT_NAME=ibm-offices-$(tasks.git-clone.results.commit)-Product
+          
+            # Create a product yaml file on the local filesystem
+            apic create:product --apis openapi.yaml --gateway-type datapower-api-gateway --name $PRODUCT_NAME --title $PRODUCT_NAME --filename product.yaml 
+  
+            cat product.yaml
+            
+            # Setup correct reference to the just created API in the product. TODO: Shouldn't be necessary.
+            yq -i '.apis = {"ibm-offices-$(tasks.git-clone.results.commit)1.0.0": {"name":"ibm-offices-$(tasks.git-clone.results.commit):1.0.0"}}' product.yaml
+            
+            cat product.yaml
+          
+            apic validate product.yaml
+           
+            # Create the draft product on the APIC server
+            apic draft-products:create product.yaml
+            
+      runAfter:
+        - buildah
+      taskRef:
+        kind: Task
+        name: apic-client
+      workspaces:
+        - name: workspace
+          workspace: workspace
+        - name: client-credentials
+          workspace: client-credentials
+        - name: basic-auth
+          workspace: basic-auth
+  workspaces:
+    - name: workspace
+    - name: client-credentials
+    - name: basic-auth
+    - name: github-pat

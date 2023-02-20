@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: ibmoffices
+  namespace: openshift-gitops
+spec:
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  destinations:
+    - namespace: '*'
+      server: '*'
+  sourceRepos:
+    - '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ibmoffices
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: ibmoffices
+    server: https://kubernetes.default.svc
+  project: ibmoffices
+  source:
+    directory:
+      recurse: true
+    path: ./
+    repoURL: https://github.com/Nordic-MVP-GitOps-Repos/ibm-offices-gitops.git
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

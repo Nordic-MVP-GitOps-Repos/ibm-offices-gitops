@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibmoffices
+  namespace: ibmoffices
+  labels:
+    app: ibmoffices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ibmoffices
+  template:
+    metadata:
+      labels:
+        app: ibmoffices
+    spec:
+      volumes:
+        - name: quarkus-certificate-secret
+          secret:
+            secretName: quarkus-certificate-secret
+            defaultMode: 420
+      containers:
+        - name: ibmoffices
+          env:
+            - name: QUARKUS_HTTP_SSL_CERTIFICATE_FILE
+              value: /var/run/kubernetes.io/secrets/ssl/tls.crt
+            - name: QUARKUS_HTTP_SSL_CERTIFICATE_KEY_FILE
+              value: /var/run/kubernetes.io/secrets/ssl/tls.key
+            - name: QUARKUS_HTTP_INSECURE_REQUESTS
+              value: redirect
+            - name: QUARKUS_HTTP_SSL_PORT
+              value: '8443'
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:120fd3dfe2902b7c132dd9042250b1f5d6a109cc
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+            - containerPort: 8778
+              protocol: TCP
+          volumeMounts:
+            - name: quarkus-certificate-secret
+              readOnly: true
+              mountPath: /var/run/kubernetes.io/secrets/ssl
