@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: ibmoffices-bootstrap
+  name: ibmoffices
   namespace: openshift-gitops
 spec:
   clusterResourceWhitelist:
