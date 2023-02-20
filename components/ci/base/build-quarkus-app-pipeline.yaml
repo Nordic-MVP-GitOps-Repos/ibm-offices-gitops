@@ -142,7 +142,7 @@ spec:
       params: 
         - name: APIC_CLIENT_IMAGE
           value: >-
-            image-registry.openshift-image-registry.svc:5000/ibmoffices/apic-client@sha256:bfa16190d7b3b47ac12f30a1732451ac783e6a42d590cd37118baa7f8289e0e9
+            image-registry.openshift-image-registry.svc:5000/ibmoffices/apic-client@sha256:36c8bde1e2e88b5e64f52692d98b55e451af618640e443cede7965367c000088
         - name: MGMT_SERVER_URL
           value: https://api-connec-7cef81ef-platform-api-cp4i.itzroks-2700015rqr-juclcb-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud/api
         - name: PROVIDER_ORG
