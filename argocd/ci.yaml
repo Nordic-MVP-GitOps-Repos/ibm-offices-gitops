@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ibmoffices
+  name: ibmoffices-ci
   namespace: openshift-gitops
   labels:
     group: applications
@@ -11,8 +11,6 @@ spec:
     server: https://kubernetes.default.svc
   project: ibmoffices
   source:
-    directory:
-      recurse: true
     path: ./envs/ibm-vpc/non-prod/ci
   syncPolicy:
     automated:
