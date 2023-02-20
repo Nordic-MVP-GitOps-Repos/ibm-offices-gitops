@@ -20,7 +20,7 @@ patches:
   patch: |-
     - op: add
       path: /spec/source/repoURL
-      value: https://github.com/Nordic-MVP-GitOps-Repos/ibm-office-gitops.git
+      value: https://github.com/Nordic-MVP-GitOps-Repos/ibm-offices-gitops.git
     - op: add
       path: /spec/source/targetRevision
       value: HEAD
