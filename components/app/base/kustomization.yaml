@@ -6,7 +6,6 @@ resources:
   - namespace.yaml
   - deployment.yaml  
   - service.yaml
-  - route.yaml
   - secure-route.yaml
   - self-signed-issuer.yaml
   - certificate.yaml
