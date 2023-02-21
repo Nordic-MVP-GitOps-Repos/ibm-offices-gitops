@@ -231,7 +231,7 @@ spec:
             apic draft-products:create product.yaml
             
       runAfter:
-        - buildah
+        - buildah-build-image-from-java-code
       taskRef:
         kind: Task
         name: apic-client
