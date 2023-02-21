@@ -73,7 +73,7 @@ spec:
       workspaces:
         - name: output
           workspace: workspace
-    - name: gradle
+    - name: gradle-build-java-code
       params:
         - name: GRADLE_IMAGE
           value: 'docker.io/library/gradle:jdk11'
@@ -91,7 +91,7 @@ spec:
       workspaces:
         - name: source
           workspace: workspace
-    - name: buildah
+    - name: buildah-build-image-from-java-code
       params:
         - name: IMAGE
           value: 'image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:$(tasks.git-clone-application-code.results.commit)'
@@ -111,16 +111,16 @@ spec:
         - name: SKIP_PUSH
           value: 'false'
       runAfter:
-        - gradle
+        - gradle-build-java-code
       taskRef:
         kind: ClusterTask
         name: buildah
       workspaces:
         - name: source
           workspace: workspace
-    - name: git-cli
+    - name: git-cli-commit-deployment-yaml
       runAfter: 
-        - yq
+        - yq-update-image-in-deployment
       taskRef:
         kind: ClusterTask
         name: git-cli
@@ -157,9 +157,9 @@ spec:
           workspace: workspace
         - name: basic-auth
           workspace: github-pat
-    - name: yq
+    - name: yq-update-image-in-deployment
       runAfter:
-        - buildah
+        - buildah-build-image-from-java-code
       taskRef:
         kind: Task
         name: yq
@@ -180,7 +180,7 @@ spec:
       workspaces:
         - name: source
           workspace: workspace
-    - name: apic-client
+    - name: apic-client-publish-api-and-product
       params: 
         - name: APIC_CLIENT_IMAGE
           value: >-
