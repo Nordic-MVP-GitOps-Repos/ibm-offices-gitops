@@ -160,11 +160,11 @@ spec:
         - name: SCRIPT
           value: |
             
-            ls -lth gitops-config/gitops/resources/deployment.yaml
+            ls -lth gitops-config/components/app/base/deployment.yaml
             
             yq -i '.spec.template.spec.containers[0].image = "image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:$(tasks.git-clone-application-code.results.commit)"' gitops-config/gitops/resources/deployment.yaml
             
-            cat gitops-config/gitops/resources/deployment.yaml
+            cat gitops-config/components/app/base/deployment.yaml
         - name: image
           value: >-
             docker.io/mikefarah/yq:4.27.5@sha256:2be3626ed633fbe1fc33ee9343a1256a6be53334412b2251b9a859f8c145bb53
