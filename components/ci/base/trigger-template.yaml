@@ -1,0 +1,42 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: trigger-template
+  namespace: ibmoffices
+spec:
+  params:
+    - name: git-revision
+    - name: git-commit-message
+    - name: git-repo-url
+    - name: git-repo-name
+    - name: content-type
+    - name: pusher-name
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: build-ibmoffices-app-
+        labels:
+          app.kubernetes.io/instance: ibmoffices-ci
+          tekton.dev/pipeline: build-ibmoffices-app
+        namespace: ibmoffices
+      spec:
+        params:
+          - name: git-repo-application-code-url
+            value: 'https://github.com/Nordic-MVP-GitOps-Repos/ibm-offices'
+          - name: git-repo-gitops-config-url
+            value: 'https://github.com/Nordic-MVP-GitOps-Repos/ibm-offices-gitops'
+          - name: dockerfile-path
+            value: application-code/src/main/docker/Dockerfile.jvm
+        pipelineRef:
+          name: build-ibmoffices-app
+        workspaces:
+          - name: workspace
+            persistentVolumeClaim:
+              claimName: tekton-workspace
+          - name: apim-credentials
+            secret:
+              secretName: apim-credentials
+          - name: github-pat
+            secret:
+              secretName: github-pat
