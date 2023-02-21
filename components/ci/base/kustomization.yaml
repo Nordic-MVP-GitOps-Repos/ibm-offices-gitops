@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
 
-  #- tekton-workspace.yaml
+  - tekton-workspace.yaml
   #- build-quarkus-app-pipeline.yaml
   # - eventlistener.yaml
   - eventlistener-cert.yaml
