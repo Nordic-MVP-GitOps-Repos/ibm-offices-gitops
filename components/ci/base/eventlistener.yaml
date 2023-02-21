@@ -4,6 +4,27 @@ metadata:
   name: event-listener-t5h01t
   namespace: ibmoffices
 spec:
+  resources:
+    kubernetesResource:
+      spec:
+        template:
+          metadata:
+            creationTimestamp: null
+          spec:
+            containers:
+              - env:
+                  - name: TLS_CERT
+                    valueFrom:
+                      secretKeyRef:
+                        key: tls.crt
+                        name: eventlistener-certificate-secret
+                  - name: TLS_KEY
+                    valueFrom:
+                      secretKeyRef:
+                        key: tls.key
+                        name: eventlistener-certificate-secret
+                name: ''
+                resources: {}
   serviceAccountName: pipeline
   triggers:
     - bindings:

@@ -6,6 +6,7 @@ resources:
   - tekton-workspace.yaml
   - build-quarkus-app-pipeline.yaml
   - eventlistener.yaml
+  - eventlistener-cert.yaml
   - trigger-template.yaml
 
   - https://raw.githubusercontent.com/tektoncd/catalog/main/task/yq/0.4/yq.yaml
