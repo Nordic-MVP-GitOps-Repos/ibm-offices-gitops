@@ -9,5 +9,5 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: ibmc-block-gold
+  storageClassName: PATCHED_BY_KUSTOMIZE
   volumeMode: Filesystem
