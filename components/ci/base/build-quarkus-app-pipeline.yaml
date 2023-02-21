@@ -114,7 +114,7 @@ spec:
         - gradle-build-java-code
       taskRef:
         kind: ClusterTask
-        name: buildah
+        name: buildah-build-image-from-java-code
       workspaces:
         - name: source
           workspace: workspace
