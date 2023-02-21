@@ -6,7 +6,10 @@ metadata:
 spec:
   params:
     - default: 'https://github.com/Nordic-MVP-GitOps-Repos/ibm-offices'
-      name: git-repo-url
+      name: git-repo-application-code-url
+      type: string
+    - default: 'https://github.com/Nordic-MVP-GitOps-Repos/ibm-offices-gitops'
+      name: git-repo-gitops-config-url
       type: string
     - default: application-code/src/main/docker/Dockerfile.jvm
       name: dockerfile-path
@@ -15,7 +18,7 @@ spec:
     - name: git-clone-application-code
       params:
         - name: url
-          value: $(params.git-repo-url)
+          value: $(params.git-repo-application-code-url)
         - name: submodules
           value: 'true'
         - name: depth
@@ -44,7 +47,7 @@ spec:
     - name: git-clone-gitops-config
       params:
         - name: url
-          value: $(params.git-repo-url)
+          value: $(params.git-repo-gitops-config-url)
         - name: submodules
           value: 'true'
         - name: depth
