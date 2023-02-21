@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 components:
-- ../../../../components/ci/variants/cloudprovider/ibm-vpc/
+- ../../../../components/ci/variants/cloudprovider/ibm-classic/
 
 resources:
 - ../../../../components/ci/base

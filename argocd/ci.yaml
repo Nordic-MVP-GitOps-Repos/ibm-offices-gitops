@@ -11,7 +11,7 @@ spec:
     server: https://kubernetes.default.svc
   project: ibmoffices
   source:
-    path: ./envs/ibm-vpc/non-prod/ci
+    path: ./envs/ibm-classic/non-prod/ci
   syncPolicy:
     automated:
       prune: true

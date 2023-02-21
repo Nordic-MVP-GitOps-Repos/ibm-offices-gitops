@@ -1,0 +1,7 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: tekton-workspace
+  namespace: ibmoffices
+spec:
+  storageClassName: ibmc-vpc-block-10iops-tier
