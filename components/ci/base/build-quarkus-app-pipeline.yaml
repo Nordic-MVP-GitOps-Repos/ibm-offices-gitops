@@ -134,6 +134,11 @@ spec:
           value: kjell.m.larsson@se.ibm.com
         - name: GIT_SCRIPT
           value: |
+
+            cd gitops-config
+
+            git status
+
             if [[ $(git status -uno --porcelain | wc -l) -eq 0 ]];  then 
                 exit 0
             fi
