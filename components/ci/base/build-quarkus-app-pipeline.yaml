@@ -91,7 +91,7 @@ spec:
     - name: buildah
       params:
         - name: IMAGE
-          value: 'image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:$(tasks.git-clone.results.commit)'
+          value: 'image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:$(tasks.git-clone-application-code.results.commit)'
         - name: BUILDER_IMAGE
           value: >-
             registry.redhat.io/rhel8/buildah@sha256:0a86ecbdfbe86e9d225b7fe4b090a0dd6d323f8afdfdf2bd933ff223ddb53320
@@ -136,7 +136,7 @@ spec:
             fi
             
             git add -u .
-            git commit -m "Updated deployment based on $(tasks.git-clone.results.commit)"
+            git commit -m "Updated deployment based on $(tasks.git-clone-application-code.results.commit)"
             git push origin HEAD:main
         - name: USER_HOME
           value: /root
@@ -159,7 +159,7 @@ spec:
             
             ls -lth gitops-config/gitops/resources/deployment.yaml
             
-            yq -i '.spec.template.spec.containers[0].image = "image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:$(tasks.git-clone.results.commit)"' gitops/resources/deployment.yaml
+            yq -i '.spec.template.spec.containers[0].image = "image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:$(tasks.git-clone-application-code.results.commit)"' gitops-config/gitops/resources/deployment.yaml
             
             cat gitops-config/gitops/resources/deployment.yaml
         - name: image
@@ -191,9 +191,9 @@ spec:
             curl -k -s $OFFICE_SERVICE_BASE_URL/q/openapi > openapi.yaml
            
             # Set description, version and title of the api
-            yq -i '.info.description = "Git commit is $(tasks.git-clone.results.commit) from $(tasks.git-clone.results.url)"' openapi.yaml
+            yq -i '.info.description = "Git commit is $(tasks.git-clone-application-code.results.commit) from $(tasks.git-clone-application-code.results.url)"' openapi.yaml
             yq -i '.info.version = "1.0.0"' openapi.yaml
-            yq -i '.info.title = "ibm-offices-$(tasks.git-clone.results.commit)"' openapi.yaml
+            yq -i '.info.title = "ibm-offices-$(tasks.git-clone-application-code.results.commit)"' openapi.yaml
             
             # Add target-url gateway property
             yq -i '.x-ibm-configuration.properties += {"target-url": {"value": strenv(TARGET_URL)}}' openapi.yaml
@@ -203,7 +203,7 @@ spec:
             # Create a draft API on the APIC server
             apic draft-apis:create --api_type rest --gateway_type datapower-api-gateway ./openapi.yaml
             
-            export PRODUCT_NAME=ibm-offices-$(tasks.git-clone.results.commit)-Product
+            export PRODUCT_NAME=ibm-offices-$(tasks.git-clone-application-code.results.commit)-Product
           
             # Create a product yaml file on the local filesystem
             apic create:product --apis openapi.yaml --gateway-type datapower-api-gateway --name $PRODUCT_NAME --title $PRODUCT_NAME --filename product.yaml 
@@ -211,7 +211,7 @@ spec:
             cat product.yaml
             
             # Setup correct reference to the just created API in the product. TODO: Shouldn't be necessary.
-            yq -i '.apis = {"ibm-offices-$(tasks.git-clone.results.commit)1.0.0": {"name":"ibm-offices-$(tasks.git-clone.results.commit):1.0.0"}}' product.yaml
+            yq -i '.apis = {"ibm-offices-$(tasks.git-clone-application-code.results.commit)1.0.0": {"name":"ibm-offices-$(tasks.git-clone-application-code.results.commit):1.0.0"}}' product.yaml
             
             cat product.yaml
           
