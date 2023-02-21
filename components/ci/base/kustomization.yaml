@@ -8,7 +8,7 @@ resources:
   # - eventlistener.yaml
   - eventlistener-cert.yaml
   - eventlistener-route.yaml
-  - trigger-template.yaml
+  # - trigger-template.yaml
   #- https://raw.githubusercontent.com/tektoncd/catalog/main/task/yq/0.4/yq.yaml
   #- https://raw.githubusercontent.com/tektoncd/catalog/main/task/gradle/0.2/gradle.yaml
   #- https://raw.githubusercontent.com/Nordic-MVP-GitOps-Repos/apic-tekton/main/tasks/apic-client-task.yaml
