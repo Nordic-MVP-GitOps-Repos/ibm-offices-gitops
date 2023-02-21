@@ -32,7 +32,7 @@ spec:
             - name: QUARKUS_HTTP_SSL_PORT
               value: '8443'
           image: >-
-            image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:46f374bb1023a9b4d32227a5c32f894326414b9e
+            image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:ab10816cb64909adb6227829c39503f26ae94a57
           ports:
             - containerPort: 8080
               protocol: TCP
