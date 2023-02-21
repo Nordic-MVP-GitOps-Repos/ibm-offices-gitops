@@ -162,7 +162,7 @@ spec:
             
             ls -lth gitops-config/components/app/base/deployment.yaml
             
-            yq -i '.spec.template.spec.containers[0].image = "image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:$(tasks.git-clone-application-code.results.commit)"' gitops-config/gitops/resources/deployment.yaml
+            yq -i '.spec.template.spec.containers[0].image = "image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:$(tasks.git-clone-application-code.results.commit)"' gitops-config/components/app/base/deployment.yaml
             
             cat gitops-config/components/app/base/deployment.yaml
         - name: image
