@@ -75,7 +75,7 @@ spec:
         - name: GRADLE_IMAGE
           value: 'docker.io/library/gradle:jdk11'
         - name: PROJECT_DIR
-          value: application-code
+          value: ./application-code/
         - name: TASKS
           value:
             - build
