@@ -14,7 +14,7 @@ resources:
   - https://raw.githubusercontent.com/Nordic-MVP-GitOps-Repos/apic-tekton/main/tasks/apic-client-task.yaml
   - https://raw.githubusercontent.com/Nordic-MVP-GitOps-Repos/apic-tekton/main/pipeline/build-apic-image-pipeline.yaml
   
-patches:
+patchesJson6902:
 - target:
     kind: ServiceAccount
     name: pipeline
