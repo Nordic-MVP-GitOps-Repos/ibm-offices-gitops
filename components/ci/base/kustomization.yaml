@@ -14,4 +14,14 @@ resources:
   - https://raw.githubusercontent.com/Nordic-MVP-GitOps-Repos/apic-tekton/main/tasks/apic-client-task.yaml
   - https://raw.githubusercontent.com/Nordic-MVP-GitOps-Repos/apic-tekton/main/pipeline/build-apic-image-pipeline.yaml
   
-  
+patches:
+- target:
+    kind: ServiceAccount
+    name: pipeline
+    namespace: ibmoffices
+  patch: |-
+    - op: add
+      path: /secrets/0/-
+      value: 
+        name: name
+        value: ibm-entitlement-key
