@@ -19,9 +19,4 @@ patchesJson6902:
     kind: ServiceAccount
     name: pipeline
     namespace: ibmoffices
-  patch: |-
-    - op: add
-      path: /secrets/0/-
-      value: 
-        name: name
-        value: ibm-entitlement-key
+  path: service-account-patch.yaml
