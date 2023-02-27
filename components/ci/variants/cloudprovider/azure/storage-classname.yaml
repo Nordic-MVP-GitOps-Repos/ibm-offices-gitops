@@ -4,4 +4,4 @@ metadata:
   name: tekton-workspace
   namespace: ibmoffices
 spec:
-  storageClassName: platform-navigator-storage
+  storageClassName: managed-premium
