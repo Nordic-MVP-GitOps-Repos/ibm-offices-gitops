@@ -24,6 +24,8 @@ spec:
     - name: apic-catalog
       type: string
       default: sandbox
+    - name: ibmoffices-base-url
+      type: string
   tasks:
     - name: git-clone-application-code
       params:
@@ -203,7 +205,8 @@ spec:
         - name: SCRIPT
           value: |
           
-            export OFFICE_SERVICE_BASE_URL=https://secure-route-ibmoffices.itzroks-2700015rqr-juclcb-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud 
+            export OFFICE_SERVICE_BASE_URL=$(params.ibmoffices-base-url)
+             
             export TARGET_URL=$OFFICE_SERVICE_BASE_URL/offices
            
             # Fetch openapi description of the ibmoffices service
