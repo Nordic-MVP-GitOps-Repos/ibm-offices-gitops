@@ -232,7 +232,7 @@ spec:
   
             cat product.yaml
             
-            # Setup correct reference to the just created API in the product. TODO: Shouldn't be necessary.
+            # Setup correct reference to the just created API in the product.
             yq -i '.apis = {"ibm-offices-$(tasks.git-clone-application-code.results.commit)1.0.0": {"name":"ibm-offices-$(tasks.git-clone-application-code.results.commit):1.0.0"}}' product.yaml
             
             cat product.yaml
@@ -241,6 +241,8 @@ spec:
            
             # Create the draft product on the APIC server
             apic draft-products:create product.yaml
+
+            apic products:publish product.yaml
             
       runAfter:
         - buildah-build-image-from-java-code
