@@ -23,7 +23,7 @@ spec:
       type: string
     - name: apic-catalog
       type: string
-      default: Sandbox
+      default: sandbox
   tasks:
     - name: git-clone-application-code
       params:
