@@ -17,6 +17,13 @@ spec:
     - name: apic-client-image
       type: string
       default: 'image-registry.openshift-image-registry.svc:5000/ibmoffices/apic-client:latest'
+    - name: apic-mgmt-server-url
+      type: string
+    - name: apic-provider-org
+      type: string
+    - name: apic-catalog
+      type: string
+      default: Sandbox
   tasks:
     - name: git-clone-application-code
       params:
@@ -188,11 +195,11 @@ spec:
         - name: APIC_CLIENT_IMAGE
           value: $(params.apic-client-image)
         - name: MGMT_SERVER_URL
-          value: https://api-connec-7cef81ef-platform-api-cp4i.itzroks-2700015rqr-juclcb-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud/api
+          value: $(params.apic-mgmt-server-url)
         - name: PROVIDER_ORG
-          value: po
+          value: $(params.apic-provider-org)
         - name: CATALOG
-          value: sandbox
+          value: $(params.apic-catalog)
         - name: SCRIPT
           value: |
           
