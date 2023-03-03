@@ -10,5 +10,5 @@ resources:
   - self-signed-issuer.yaml
   - certificate.yaml
   - letsencrypt-issuer.yaml
-  #- letsencrypt-cert.yaml
+  - letsencrypt-cert.yaml
   
