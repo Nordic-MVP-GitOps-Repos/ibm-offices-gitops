@@ -7,6 +7,7 @@ resources:
   - argo-role-binding.yaml
   - app.yaml
   - ci.yaml
+  - restricted-seccomp.yaml
  
 patches:
 - target:
