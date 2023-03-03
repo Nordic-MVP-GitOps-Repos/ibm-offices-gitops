@@ -2,12 +2,14 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: lec-cert
-  namespace: ibmoffices
 spec:
-  secretName: lec-cert
+  secretName: lec-cert-secret
   duration: 2160h0m0s # 90d
   renewBefore: 360h0m0s # 15d
   commonName: aro.ceibm.com
+  subject:
+    organizations:
+      - ce
   privateKey:
     algorithm: RSA
     encoding: PKCS1
