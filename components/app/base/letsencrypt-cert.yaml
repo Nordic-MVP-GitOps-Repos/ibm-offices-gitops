@@ -1,0 +1,27 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: lec-cert
+  namepace: ibmoffices
+spec:
+  secretName: lec-cert
+  duration: 2160h0m0s # 90d
+  renewBefore: 360h0m0s # 15d
+  commonName: aro.ceibm.com
+  subject:
+    organizations:
+      - office
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - key encipherment
+    - digital signature
+    - server auth
+    - client auth
+  dnsNames:
+    - 'secure-route-ibmoffices.apps.oc31okmp.eastus.aroapp.io'
+    - 'aro.ceibm.com'
+  issuerRef:
+    name: letsencrypt-issuer
