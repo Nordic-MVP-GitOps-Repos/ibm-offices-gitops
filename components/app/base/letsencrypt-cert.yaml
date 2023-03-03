@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: lec-cert
-  namepace: ibmoffices
+  namespace: ibmoffices
 spec:
   secretName: lec-cert
   duration: 2160h0m0s # 90d
