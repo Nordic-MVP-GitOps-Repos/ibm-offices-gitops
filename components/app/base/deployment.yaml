@@ -41,6 +41,6 @@ spec:
             - containerPort: 8778
               protocol: TCP
           volumeMounts:
-            - name: quarkus-certificate-secret
+            - name: lec-cert-secret
               readOnly: true
               mountPath: /var/run/kubernetes.io/secrets/ssl
