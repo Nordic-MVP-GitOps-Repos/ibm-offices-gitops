@@ -93,7 +93,7 @@ spec:
           value: application-code/
         - name: TASKS
           value:
-            - build -Dquarkus.package.type=native -Dquarkus.native.container-build=true
+            - build
       runAfter:
         - git-clone-application-code
         - git-clone-gitops-config
