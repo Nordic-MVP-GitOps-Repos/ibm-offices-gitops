@@ -1,9 +1,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  labels:
-    k8s-app: prometheus-app-monitor
-  name: prometheus-app-monitor
+  name: ibmoffices-servicemonitor
   namespace: ibmoffices
 spec:
   endpoints:
