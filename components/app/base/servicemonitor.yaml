@@ -8,9 +8,9 @@ metadata:
 spec:
   endpoints:
   - interval: 30s
-    targetPort: 443
+    targetPort: 8443
     path: /q/metrics
-    scheme: http
+    scheme: https
   selector:
     matchLabels:
       app: ibmoffices
