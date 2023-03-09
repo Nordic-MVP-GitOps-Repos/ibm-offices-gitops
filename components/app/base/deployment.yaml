@@ -27,8 +27,6 @@ spec:
               value: /var/run/kubernetes.io/secrets/ssl/tls.crt
             - name: QUARKUS_HTTP_SSL_CERTIFICATE_KEY_FILE
               value: /var/run/kubernetes.io/secrets/ssl/tls.key
-            - name: QUARKUS_HTTP_INSECURE_REQUESTS
-              value: redirect
             - name: QUARKUS_HTTP_SSL_PORT
               value: '8443'
           image: >-
