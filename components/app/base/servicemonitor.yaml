@@ -13,4 +13,4 @@ spec:
     scheme: http
   selector:
     matchLabels:
-      app-with-metrics: "ibmoffices"
+      app: ibmoffices
