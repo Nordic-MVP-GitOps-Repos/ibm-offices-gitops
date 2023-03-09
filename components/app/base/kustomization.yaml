@@ -11,5 +11,5 @@ resources:
   - certificate.yaml
   - letsencrypt-issuer.yaml
   - letsencrypt-cert.yaml
-  - servicemonitor.yaml
+  #- servicemonitor.yaml
   
