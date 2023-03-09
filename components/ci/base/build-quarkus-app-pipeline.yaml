@@ -103,9 +103,6 @@ spec:
       workspaces:
         - name: source
           workspace: workspace
-        - name: gradle-config
-          configmap:
-            name: gradle-config
     - name: buildah-build-image-from-java-code
       params:
         - name: IMAGE
