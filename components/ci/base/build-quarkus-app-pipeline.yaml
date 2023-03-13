@@ -52,7 +52,7 @@ spec:
           value: application-code
       taskRef:
         kind: ClusterTask
-        name: git-clone-1-8-0
+        name: git-clone
       workspaces:
         - name: output
           workspace: workspace
@@ -81,7 +81,7 @@ spec:
           value: gitops-config
       taskRef:
         kind: ClusterTask
-        name: git-clone-1-8-0
+        name: git-clone
       workspaces:
         - name: output
           workspace: workspace
