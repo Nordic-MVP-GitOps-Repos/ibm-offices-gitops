@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
 
-  - tls/certificate.yaml
+  - tls/self-signed-certificate.yaml
   - tls/self-signed-issuer.yaml
 
   #- tls/letsencrypt-issuer.yaml
