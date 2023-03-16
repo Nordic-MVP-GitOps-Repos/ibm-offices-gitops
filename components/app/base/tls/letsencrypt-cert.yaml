@@ -20,7 +20,7 @@ spec:
     - server auth
     - client auth
   dnsNames:
-    - 'secure-route-ibmoffices.ocp412-fra02-bcaeaf77ec409da3581f519c2c3bf303-0000.eu-de.containers.appdomain.cloud'
+    - 'secure-route-ibmoffices.mycluster-fra02-c3c-16x32-bcaeaf77ec409da3581f519c2c3bf303-0000.eu-de.containers.appdomain.cloud'
     - 'lhscp4i.ceibm.com'
   issuerRef:
     name: letsencrypt-issuer

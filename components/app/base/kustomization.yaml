@@ -3,13 +3,16 @@ kind: Kustomization
 
 resources:
 
+  - tls/certificate.yaml
+  - tls/self-signed-issuer.yaml
+
+  #- tls/letsencrypt-issuer.yaml
+  #- tls/letsencrypt-cert.yaml
+ 
   - namespace.yaml
   - deployment.yaml  
   - service.yaml
   - secure-route.yaml
-  - self-signed-issuer.yaml
-  - certificate.yaml
-  - letsencrypt-issuer.yaml
-  - letsencrypt-cert.yaml
+  
   - servicemonitor.yaml
   
