@@ -5,11 +5,11 @@ resources:
 
   # Use either of these issuers and certificates
 
-  #- tls/self-signed-certificate.yaml
-  #- tls/self-signed-issuer.yaml
+  - tls/self-signed-certificate.yaml
+  - tls/self-signed-issuer.yaml
 
-  - tls/letsencrypt-issuer.yaml
-  - tls/letsencrypt-cert.yaml
+  #- tls/letsencrypt-issuer.yaml
+  #- tls/letsencrypt-cert.yaml
  
   - namespace.yaml
   - deployment.yaml  
