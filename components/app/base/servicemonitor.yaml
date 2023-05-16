@@ -2,7 +2,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: ibmoffices-servicemonitor
-  namespace: ibmoffices
 spec:
   endpoints:
   - interval: 30s

@@ -2,7 +2,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: tekton-workspace
-  namespace: ibmoffices
 spec:
   accessModes:
     - ReadWriteOnce

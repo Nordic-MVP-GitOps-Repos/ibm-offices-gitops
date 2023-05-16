@@ -2,7 +2,6 @@ apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: build-ibmoffices-app
-  namespace: ibmoffices
 spec:
   params:
     - default: 'https://github.com/Nordic-MVP-GitOps-Repos/ibm-offices'

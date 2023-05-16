@@ -2,7 +2,6 @@ apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
   name: trigger-template
-  namespace: ibmoffices
 spec:
   params:
     - name: git-revision
