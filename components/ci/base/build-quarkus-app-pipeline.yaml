@@ -55,6 +55,8 @@ spec:
       workspaces:
         - name: output
           workspace: workspace
+        - name: basic-auth
+          workspace: github-pat
     - name: git-clone-gitops-config
       params:
         - name: url
@@ -84,6 +86,8 @@ spec:
       workspaces:
         - name: output
           workspace: workspace
+        - name: basic-auth
+          workspace: github-pat
     - name: gradle-build-java-code
       params:
         - name: GRADLE_IMAGE
