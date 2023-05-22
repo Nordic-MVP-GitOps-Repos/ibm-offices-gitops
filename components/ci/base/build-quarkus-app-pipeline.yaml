@@ -243,10 +243,7 @@ spec:
             apic validate product.yaml
            
             # Create the draft product on the APIC server
-            apic draft-products:create product.yaml
-
-            apic products:publish product.yaml
-            
+            apic draft-products:create product.yaml            
       runAfter:
         - buildah-build-image-from-java-code
       taskRef:
